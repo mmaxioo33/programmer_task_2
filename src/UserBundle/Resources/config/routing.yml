@@ -1,0 +1,11 @@
+register:
+    resource: '@UserBundle/Controller/SecurityController.php'
+    type: annotation
+
+user:
+    prefix: /user
+    resource: '@UserBundle/Controller/UserController.php'
+    type: annotation
+
+user_logout:
+    path: /logout
