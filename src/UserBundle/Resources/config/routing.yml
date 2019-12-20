@@ -3,7 +3,7 @@ register:
     type: annotation
 
 user:
-    prefix: /user
+    prefix: /users
     resource: '@UserBundle/Controller/UserController.php'
     type: annotation
 

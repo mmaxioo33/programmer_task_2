@@ -27,11 +27,11 @@ security:
             form_login:
                 login_path: user_login
                 check_path: user_login
-                default_target_path: /user/list
+                default_target_path: /users
 
             logout:
                 path: user_logout
-                target: /login
+                target: /
 
     access_control:
         - { path: ^/user , roles: ROLE_USER }

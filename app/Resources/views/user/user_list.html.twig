@@ -3,6 +3,28 @@
 {% block body %}
     Lista Użytkowników :)
     <br>
+    <table>
+        <tr>
+            <th>{{ knp_pagination_sortable(pagination, 'Id', 'u.id') }}</th>
+            <th{% if pagination.isSorted('u.username') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Username', 'u.username') }}</th>
+            <th><strong>Disabled</strong></th>
+            <th><strong>Action</strong></th>
+        </tr>
+
+        {% for user in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+            <td>{% if user.disabled %} <strong>True</strong> {% else %} <strong>False</strong> {% endif %}</td>
+            <td><a href="{{ path('disable_user', {userId: user.id}) }}"><strong>Disable user</strong></a></td>
+            </tr>
+        {% endfor %}
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <br>
     <a href="{{ path('user_logout') }}" title="Wyloguj się">
         <span><strong>Wyloguj sie</strong></span>
     </a>

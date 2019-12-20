@@ -10,4 +10,17 @@ namespace UserBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+     * @return array
+     */
+    public function getUsers(): array
+    {
+        $qb = $this->_em->createQueryBuilder();
+        $qb
+            ->select('u.id, u.username, u.disabled')
+            ->from('UserBundle:User', 'u')
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

@@ -4,7 +4,7 @@ namespace UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Security\Core\{User\UserInterface, Role\Role, Role\RoleInterface};
+use Symfony\Component\Security\Core\{User\AdvancedUserInterface, Role\Role, Role\RoleInterface};
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,10 +14,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="UserBundle\Repository\UserRepository")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
-class User implements UserInterface
+class User implements AdvancedUserInterface
 {
-    const ACTIVE = 1;
-    const DISABLED = 0;
+    const ACTIVE = 0;
+    const DISABLED = 1;
 
     /**
      * @var int
@@ -144,12 +144,11 @@ class User implements UserInterface
     }
 
     /**
-     * @param bool $disabled
      * @return User
      */
-    public function disable(bool $disabled): User
+    public function disable(): User
     {
-        $this->disabled = $disabled;
+        $this->disabled = self::DISABLED;
 
         return $this;
     }
@@ -164,9 +163,42 @@ class User implements UserInterface
 
     public function getSalt(): void
     {
+        // TODO implement to improve password hashing
     }
 
     public function eraseCredentials(): void
     {
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEnabled(): bool
+    {
+        return !$this->disabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAccountNonExpired(): bool
+    {
+        return !$this->disabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAccountNonLocked(): bool
+    {
+        return !$this->disabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCredentialsNonExpired(): bool
+    {
+        return !$this->disabled;
     }
 }
